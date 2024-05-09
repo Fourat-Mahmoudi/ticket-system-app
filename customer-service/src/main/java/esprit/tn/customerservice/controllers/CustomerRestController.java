@@ -1,26 +1,39 @@
-package esprit.tn.customerservice.web;
+package esprit.tn.customerservice.controllers;
 import esprit.tn.customerservice.entities.Customer;
 import esprit.tn.customerservice.repository.CustomerRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import esprit.tn.customerservice.services.ICustomerService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@AllArgsConstructor
 @RestController
 public class CustomerRestController {
-    private CustomerRepository customerRepository;
-    //Injection des dependences
-    public CustomerRestController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    ICustomerService customerService;
+    @PostMapping("/add")
+    @ResponseBody
+    public Customer addCustomer(@RequestBody Customer customer) {
+        return customerService.addCustomer(customer);
     }
-    @GetMapping("/customers")
+    @PutMapping("/update")
+    @ResponseBody
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        return customerService.updateCustomer(customer);
+    }
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public void deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+    }
+    @GetMapping("/getall")
+    @ResponseBody
     public List<Customer> customerList(){
-        return customerRepository.findAll();
+        return customerService.customerList();
     }
-    @GetMapping("/customers/{id}")
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
     public Customer customerById(@PathVariable Long id){
-        return customerRepository.findById(id).get();
+        return customerService.customerById(id);
     }
 }

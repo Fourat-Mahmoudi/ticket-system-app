@@ -1,2 +1,5 @@
-package esprit.tn.ticketservice.entities;public enum TicketType {
+package esprit.tn.ticketservice.entities;
+
+public enum TicketType {
+    QUESTION, INCIDENT, PROBLEM, FEATURE
 }
